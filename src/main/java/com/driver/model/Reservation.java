@@ -1,32 +1,37 @@
 package com.driver.model;
 
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Reservation")
 public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    int noOfHours;
-    @ManyToOne
-    @JoinColumn
-    User user;
-    @ManyToOne
-    @JoinColumn
-    Spot spot;
-    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
-    Payment payment;
 
-    public Reservation() {
+    private int numberOfHours;
+
+    @ManyToOne
+    @JoinColumn
+    private Spot spot;
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
+    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
+    private Payment payment;
+
+    public Reservation(int id, int numberOfHours, Spot spot, User user, Payment payment) {
+        this.id = id;
+        this.numberOfHours = numberOfHours;
+        this.spot = spot;
+        this.user = user;
+        this.payment = payment;
     }
 
-    public Reservation(int id, int noOfHours, User user, Spot spot, Payment payment) {
-        this.id = id;
-        this.noOfHours = noOfHours;
-        this.user = user;
-        this.spot = spot;
-        this.payment = payment;
+    public Reservation() {
     }
 
     public int getId() {
@@ -37,20 +42,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public int getNoOfHours() {
-        return noOfHours;
+    public int getNumberOfHours() {
+        return numberOfHours;
     }
 
-    public void setNoOfHours(int noOfHours) {
-        this.noOfHours = noOfHours;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setNumberOfHours(int numberOfHours) {
+        this.numberOfHours = numberOfHours;
     }
 
     public Spot getSpot() {
@@ -59,6 +56,14 @@ public class Reservation {
 
     public void setSpot(Spot spot) {
         this.spot = spot;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Payment getPayment() {

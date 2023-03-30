@@ -1,23 +1,40 @@
 package com.driver.model;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Spot")
 public class Spot {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    SpotType spotType;
+
+
+    @Enumerated(EnumType.STRING)
+    private SpotType spotType;
+
     private int pricePerHour;
-    boolean occupied;
-    @OneToOne
-    @JoinColumn
-    ParkingLot parkingLot;
+
+    private Boolean occupied;
+
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    List<Reservation> ReservationList = new ArrayList<>();
+    private List<Reservation> reservationList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn
+    private ParkingLot parkingLot;
+
+    public Spot(int id, SpotType spotType, int pricePerHour, Boolean occupied, List<Reservation> reservationList, ParkingLot parkingLot) {
+        this.id = id;
+        this.spotType = spotType;
+        this.pricePerHour = pricePerHour;
+        this.occupied = occupied;
+        this.reservationList = reservationList;
+        this.parkingLot = parkingLot;
+    }
 
     public Spot() {
     }
@@ -30,13 +47,6 @@ public class Spot {
         this.id = id;
     }
 
-    public SpotType getSpotType() {
-        return spotType;
-    }
-
-    public void setSpotType(SpotType spotType) {
-        this.spotType = spotType;
-    }
 
     public int getPricePerHour() {
         return pricePerHour;
@@ -46,27 +56,34 @@ public class Spot {
         this.pricePerHour = pricePerHour;
     }
 
-    public boolean getOccupied() {
+    public Boolean getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(boolean occupied) {
+    public void setOccupied(Boolean occupied) {
         this.occupied = occupied;
     }
 
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+    public SpotType getSpotType() {
+        return spotType;
+    }
+
+    public void setSpotType(SpotType spotType) {
+        this.spotType = spotType;
+    }
     public ParkingLot getParkingLot() {
         return parkingLot;
     }
 
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
-    }
-
-    public List<Reservation> getReservationList() {
-        return ReservationList;
-    }
-
-    public void setReservationList(List<Reservation> reservationList) {
-        ReservationList = reservationList;
     }
 }
